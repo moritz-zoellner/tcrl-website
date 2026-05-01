@@ -1,0 +1,32 @@
+{
+  "name": "robot-learning-tc-website",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Static website for the IEEE RAS Technical Committee on Robot Learning.",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check"
+  },
+  "keywords": [
+    "astro",
+    "robot-learning",
+    "ieee-ras"
+  ],
+  "author": "IEEE RAS Technical Committee on Robot Learning",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/sitemap": "^3.7.2",
+    "@lucide/astro": "^1.14.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "astro": "^5.18.1",
+    "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,67 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+
+interface Props {
+  title: string;
+  description: string;
+  category: string;
+  href?: string;
+}
+
+const { title, description, category, href } = Astro.props;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag class="resource-card card" href={href}>
+  <span>{category}</span>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {href && <ArrowUpRight size={18} aria-hidden="true" />}
+</Tag>
+
+<style>
+  .resource-card {
+    position: relative;
+    display: grid;
+    min-height: 206px;
+    align-content: start;
+    gap: 0.72rem;
+    padding: 1.1rem;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .resource-card:hover {
+    border-color: rgba(17, 184, 217, 0.52);
+    transform: translateY(-2px);
+  }
+
+  span {
+    color: var(--accent-strong);
+    font-size: 0.78rem;
+    font-weight: 850;
+    text-transform: uppercase;
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    max-width: 88%;
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  svg {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    color: var(--signal);
+  }
+</style>

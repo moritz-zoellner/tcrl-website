@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PersonCard from '../components/PersonCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const people = await getCollection('people');
+const groups = [
+  { key: 'chair', label: 'Chairs' },
+  { key: 'junior', label: 'Junior Co-Chairs' },
+  { key: 'student', label: 'Student Co-Chairs' },
+] as const;
+---
+
+<BaseLayout title="People" description="Committee chairs, advisory board, and representatives for the IEEE RAS TC on Robot Learning.">
+  <section class="page-intro">
+    <div class="container">
+      <SectionHeading
+        eyebrow="People"
+        title="Committee leadership for the TC on Robot Learning."
+        copy="Meet the committee members coordinating activities, resources, and community engagement for robot learning within IEEE RAS."
+      />
+    </div>
+  </section>
+  <section class="people-section">
+    <div class="container">
+      {groups.map((group) => {
+        const members = people
+          .filter((person) => person.data.group === group.key)
+          .sort((a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name));
+        return (
+          <div class="group">
+            <h2>{group.label}</h2>
+            <div class="people-grid">
+              {members.map((person) => (
+                <PersonCard
+                  name={person.data.name}
+                  role={person.data.role}
+                  affiliation={person.data.affiliation}
+                  location={person.data.location}
+                  country={person.data.country}
+                  email={person.data.email}
+                  href={person.data.href}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-intro {
+    padding: 6rem 0 3rem;
+  }
+
+  .people-section {
+    padding: 1rem 0 6rem;
+  }
+
+  .group + .group {
+    margin-top: 3rem;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 920px) {
+    .people-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .people-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

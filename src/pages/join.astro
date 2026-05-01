@@ -1,0 +1,119 @@
+---
+import { ArrowRight, UsersRound } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const ieeeJoinUrl =
+  'https://www.ieee.org/membership-catalog/productdetail/showProductDetailPage.html?product=CMYRAS040&tcType=IEEE%20Robotics%20and%20Automation%20Society%20Membership&searchResults=Y';
+---
+
+<BaseLayout title="Join" description="Join the IEEE RAS Technical Committee on Robot Learning.">
+  <section class="join-hero dark-panel mesh">
+    <div class="container join-hero-inner">
+      <p class="eyebrow">Join the TC</p>
+      <h1>Connect with the robot learning community inside IEEE RAS.</h1>
+      <p>
+        The Technical Committee on Robot Learning brings together researchers and
+        practitioners interested in learning-enabled robotics, from algorithms and
+        datasets to deployed robot systems.
+      </p>
+      <div class="actions">
+        <a class="button button-primary" href={ieeeJoinUrl}>
+          Join through IEEE <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <a class="button button-secondary" href="/people/">
+          Contact committee members
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="involved-section">
+    <div class="container involved-panel">
+      <UsersRound size={28} aria-hidden="true" />
+      <div>
+        <h2>Questions, ideas, or ways to get involved?</h2>
+        <p>
+          Reach out to the committee leadership listed on the People page. We welcome
+          suggestions for workshops, resources, tutorials, mentoring activities, and
+          community initiatives.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .join-hero {
+    padding: 7rem 0;
+  }
+
+  .join-hero-inner {
+    display: grid;
+    gap: 1rem;
+  }
+
+  h1 {
+    max-width: 980px;
+    margin: 0;
+    font-size: clamp(3rem, 7vw, 6.7rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.92;
+  }
+
+  .join-hero p:not(.eyebrow) {
+    max-width: 760px;
+    color: #c6d5dc;
+    font-size: 1.18rem;
+    line-height: 1.7;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .involved-section {
+    padding: 5rem 0 6rem;
+  }
+
+  .involved-panel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .involved-panel svg {
+    color: var(--accent-strong);
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    line-height: 1.08;
+  }
+
+  .involved-panel p {
+    max-width: 780px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 0.7rem;
+  }
+
+  @media (max-width: 640px) {
+    .involved-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

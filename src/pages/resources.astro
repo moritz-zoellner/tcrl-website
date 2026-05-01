@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ResourceCard from '../components/ResourceCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const resources = await getCollection('resources');
+const categories = [...new Set(resources.map((resource) => resource.data.category))];
+---
+
+<BaseLayout title="Resources" description="Datasets, tutorials, reading lists, and community links for robot learning.">
+  <section class="page-intro">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Resources"
+        title="Resources for the robot learning community."
+        copy="This page will collect tutorials, datasets, benchmarks, reading lists, software, lab links, and committee materials."
+      />
+    </div>
+  </section>
+  <section class="resource-section">
+    <div class="container">
+      {categories.map((category) => {
+        const entries = resources.filter((resource) => resource.data.category === category);
+        return (
+          <div class="category">
+            <h2>{category}</h2>
+            <div class="resource-grid">
+              {entries.map((resource) => (
+                <ResourceCard
+                  title={resource.data.title}
+                  description={resource.data.description}
+                  category={resource.data.category}
+                  href={resource.data.href}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-intro {
+    padding: 6rem 0 3rem;
+  }
+
+  .resource-section {
+    padding: 1rem 0 6rem;
+  }
+
+  .category + .category {
+    margin-top: 3rem;
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    color: var(--accent-strong);
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .resource-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .resource-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

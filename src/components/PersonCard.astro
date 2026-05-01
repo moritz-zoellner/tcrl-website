@@ -1,0 +1,82 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  affiliation: string;
+  location?: string;
+  country?: string;
+  email?: string;
+  href?: string;
+}
+
+const { name, role, affiliation, location, country, email, href } = Astro.props;
+const place = [location, country].filter(Boolean).join(', ');
+---
+
+<article class="person-card card">
+  <div class="avatar" aria-hidden="true">{name.split(' ').map((part) => part[0]).join('').slice(0, 2)}</div>
+  <div>
+    <h3>{href ? <a href={href}>{name}</a> : name}</h3>
+    <p class="role">{role}</p>
+    <p>{affiliation}</p>
+    {place && <p class="place">{place}</p>}
+    {email && <a class="email" href={`mailto:${email}`}>{email}</a>}
+  </div>
+</article>
+
+<style>
+  .person-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    min-height: 180px;
+  }
+
+  .avatar {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    border-radius: 8px;
+    background: #12202a;
+    color: #9ee7f2;
+    font-weight: 900;
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+  }
+
+  .role {
+    color: var(--signal);
+    font-size: 0.86rem;
+    font-weight: 850;
+    margin-top: 0.25rem;
+  }
+
+  p:not(.role) {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin-top: 0.35rem;
+  }
+
+  .place {
+    color: #748291;
+  }
+
+  .email {
+    display: inline-block;
+    color: var(--accent-strong);
+    font-size: 0.86rem;
+    font-weight: 780;
+    margin-top: 0.55rem;
+    overflow-wrap: anywhere;
+  }
+</style>

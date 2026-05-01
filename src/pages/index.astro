@@ -1,0 +1,464 @@
+---
+import { getCollection } from 'astro:content';
+import {
+  ArrowRight,
+  BookOpen,
+  Bot,
+  CalendarDays,
+  Database,
+  FlaskConical,
+  Handshake,
+  Layers,
+  Network,
+  Orbit,
+  ShieldCheck,
+  UsersRound,
+  Workflow,
+} from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const news = (await getCollection('news'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const allResources = await getCollection('resources');
+const welcomeKit = allResources.find((resource) => resource.id.replace(/\.(md|mdx)$/, '') === 'icra-2026-welcome-kit');
+const getSlug = (id: string) => id.replace(/\.(md|mdx)$/, '');
+const formatDate = (date: Date) => date.toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+const work = [
+  {
+    icon: CalendarDays,
+    title: 'Workshops & Events',
+    copy: 'Coordinate workshops, tutorials, meetups, panels, and calls around robot learning topics at IEEE RAS venues.',
+  },
+  {
+    icon: UsersRound,
+    title: 'Community & Mentoring',
+    copy: 'Support student and early-career participation through mentoring, networking, and community activities.',
+  },
+  {
+    icon: Database,
+    title: 'Resources',
+    copy: 'Collect useful datasets, benchmarks, tutorials, software, reading lists, and lab links for the field.',
+  },
+  {
+    icon: Network,
+    title: 'IEEE RAS Coordination',
+    copy: 'Connect robot learning efforts across IEEE RAS activities, publications, committees, and conferences.',
+  },
+];
+
+const researchAreas = [
+  { icon: Handshake, title: 'Learning from Demonstration' },
+  { icon: Orbit, title: 'Reinforcement Learning' },
+  { icon: Workflow, title: 'Generative Policies & Diffusion Models' },
+  { icon: Bot, title: 'Foundation Models for Robotics' },
+  { icon: Layers, title: 'Representation Learning & Sim-to-Real' },
+  { icon: ShieldCheck, title: 'Safe and Reliable Robot Learning' },
+  { icon: UsersRound, title: 'Human-Robot Interaction & Preference Learning' },
+  { icon: FlaskConical, title: 'Benchmarks, Datasets & Evaluation' },
+];
+---
+
+<BaseLayout>
+  <section class="hero">
+    <img src="/images/robot-learning-hero.png" alt="" class="hero-image" loading="eager" />
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <p class="hero-kicker">IEEE Robotics and Automation Society</p>
+      <h1>Technical Committee on Robot Learning</h1>
+      <p class="hero-copy">
+        A home for researchers building robots that learn from data, humans,
+        simulation, interaction, and deployment.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/join/">Join the TC <ArrowRight size={18} /></a>
+        <a class="button button-secondary" href={welcomeKit?.data.href ?? '/resources/'}>ICRA 2026 Welcome Kit</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="container mission-grid">
+      <SectionHeading
+        eyebrow="Mission / Scope"
+        title="Advancing robot learning as a robotics discipline."
+        copy="The IEEE RAS Technical Committee on Robot Learning supports research on robots that learn from data, experience, humans, simulation, and deployment. The TC helps coordinate workshops, mentoring, resources, and community activity across IEEE RAS."
+      />
+      <div class="mission-card card">
+        <BookOpen size={28} aria-hidden="true" />
+        <h2>Robot learning connects methods to machines.</h2>
+        <p>
+          Our scope includes learning for control, perception, interaction, adaptation,
+          evaluation, and embodied intelligence in physical and simulated robotic systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="work-section dark-panel mesh">
+    <div class="container">
+      <SectionHeading
+        eyebrow="What We Do"
+        title="A practical structure for community activity."
+      />
+      <div class="work-grid">
+        {work.map((item) => {
+          const Icon = item.icon;
+          return (
+            <article class="work-card">
+              <Icon size={26} aria-hidden="true" />
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="research-section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Research Areas"
+        title="Topics across robot learning."
+      />
+      <div class="topic-grid">
+        {researchAreas.map((area) => {
+          const Icon = area.icon;
+          return (
+            <article class="topic-card card">
+              <Icon size={22} aria-hidden="true" />
+              <h3>{area.title}</h3>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <div class="container featured-grid">
+      <div>
+        <SectionHeading eyebrow="Latest News" title="Recent updates." />
+        <div class="news-list">
+          {news.map((post) => (
+            <a class="news-card card" href={`/news/${getSlug(post.id)}/`}>
+              <span>{formatDate(post.data.date)}</span>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="resource-preview">
+        <SectionHeading
+          eyebrow="Resources Preview"
+          title="Useful material for the community."
+          copy="Find tutorials, datasets, benchmarks, reading lists, software, lab links, and committee resources."
+        />
+        <div class="mini-links">
+          <a href="/resources/">Browse resources <ArrowRight size={16} /></a>
+          <a href="/activities/">View activities <ArrowRight size={16} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="join-cta">
+    <div class="container join-panel">
+      <div>
+        <p class="eyebrow">Join the TC</p>
+        <h2>Take part in the IEEE RAS robot learning community.</h2>
+        <p>
+          Join the TC, contribute resources, suggest activities, or contact the
+          committee with ideas for strengthening the robot learning community.
+        </p>
+      </div>
+      <a class="button button-primary" href="/join/">Join through IEEE <ArrowRight size={18} /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(760px, calc(100vh - 72px));
+    overflow: hidden;
+    color: #f7fbfe;
+  }
+
+  .hero-image,
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-scrim {
+    background:
+      linear-gradient(90deg, rgba(9, 14, 19, 0.92) 0%, rgba(9, 14, 19, 0.76) 42%, rgba(9, 14, 19, 0.22) 100%),
+      linear-gradient(180deg, rgba(9, 14, 19, 0.05) 0%, rgba(9, 14, 19, 0.76) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: min(760px, calc(100vh - 72px));
+    align-content: center;
+    padding: 6rem 0 4.5rem;
+  }
+
+  .hero-kicker {
+    margin: 0 0 1rem;
+    color: #8ee8f4;
+    font-size: 0.84rem;
+    font-weight: 850;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 820px;
+    margin: 0;
+    font-size: clamp(3.4rem, 8vw, 7.8rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.9;
+  }
+
+  .hero-copy {
+    max-width: 670px;
+    margin: 1.35rem 0 0;
+    color: #d7e4ea;
+    font-size: clamp(1.12rem, 2vw, 1.45rem);
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .mission-section,
+  .research-section,
+  .featured-section,
+  .resource-section,
+  .news-section {
+    padding: 3rem 0;
+  }
+
+  .mission-grid,
+  .featured-grid,
+  .news-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .mission-card {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.25rem;
+  }
+
+  .mission-card svg,
+  .topic-card svg {
+    color: var(--accent-strong);
+  }
+
+  .mission-card h2,
+  .mission-card p,
+  .work-card h3,
+  .work-card p,
+  .topic-card h3,
+  .news-card h3,
+  .news-card p,
+  .join-panel h2,
+  .join-panel p {
+    margin: 0;
+  }
+
+  .mission-card h2 {
+    font-size: 1.55rem;
+    line-height: 1.1;
+  }
+
+  .mission-card p,
+  .work-card p,
+  .news-card p,
+  .join-panel p {
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .work-section {
+    padding: 5rem 0;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .work-card {
+    display: grid;
+    min-height: 245px;
+    align-content: start;
+    gap: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1rem;
+  }
+
+  .work-card svg {
+    color: #8ee8f4;
+  }
+
+  .work-card h3 {
+    color: #f7fbfe;
+    font-size: 1.22rem;
+    line-height: 1.15;
+  }
+
+  .work-card p {
+    color: #c3d4dc;
+  }
+
+  .topic-grid,
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .topic-card {
+    display: grid;
+    min-height: 136px;
+    align-content: start;
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+
+  .topic-card h3 {
+    font-size: 1.06rem;
+    line-height: 1.2;
+  }
+
+  .event-list,
+  .news-list {
+    margin-top: 1.5rem;
+  }
+
+  .resource-preview {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: clamp(1.2rem, 3vw, 1.8rem);
+  }
+
+  .mini-links {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+  }
+
+  .mini-links a {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--accent-strong);
+    font-weight: 850;
+  }
+
+  .resource-section {
+    background: var(--panel);
+  }
+
+  .news-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .news-card {
+    display: grid;
+    gap: 0.45rem;
+    padding: 1rem;
+  }
+
+  .news-card span {
+    color: var(--accent-strong);
+    font-size: 0.8rem;
+    font-weight: 850;
+  }
+
+  .join-cta {
+    padding: 3rem 0;
+  }
+
+  .join-panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 8px;
+    background: #111820;
+    color: #f8fcfd;
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .join-panel h2 {
+    max-width: 780px;
+    margin-top: 0.4rem;
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 1;
+  }
+
+  .join-panel p:not(.eyebrow) {
+    max-width: 720px;
+    color: #c3d4dc;
+    margin-top: 0.9rem;
+  }
+
+  @media (max-width: 1040px) {
+    .work-grid,
+    .topic-grid,
+    .resource-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .mission-grid,
+    .featured-grid,
+    .news-grid,
+    .join-panel {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .work-grid,
+    .topic-grid,
+    .resource-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
