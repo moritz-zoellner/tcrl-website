@@ -26,6 +26,8 @@ const allResources = await getCollection('resources');
 const welcomeKit = allResources.find((resource) => resource.id.replace(/\.(md|mdx)$/, '') === 'icra-2026-welcome-kit');
 const getSlug = (id: string) => id.replace(/\.(md|mdx)$/, '');
 const formatDate = (date: Date) => date.toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const base = import.meta.env.BASE_URL;
+const withBase = (path = '') => `${base.replace(/\/?$/, '/')}${path.replace(/^\//, '')}`;
 
 const work = [
   {
@@ -64,7 +66,7 @@ const researchAreas = [
 
 <BaseLayout>
   <section class="hero">
-    <img src="/images/robot-learning-hero.png" alt="" class="hero-image" loading="eager" />
+    <img src={withBase('/images/robot-learning-hero.png')} alt="" class="hero-image" loading="eager" />
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="container hero-content">
       <p class="hero-kicker">IEEE Robotics and Automation Society</p>
@@ -74,8 +76,8 @@ const researchAreas = [
         simulation, interaction, and deployment.
       </p>
       <div class="hero-actions">
-        <a class="button button-primary" href="/join/">Join the TC <ArrowRight size={18} /></a>
-        <a class="button button-secondary" href={welcomeKit?.data.href ?? '/resources/'}>ICRA 2026 Welcome Kit</a>
+        <a class="button button-primary" href={withBase('/join/')}>Join the TC <ArrowRight size={18} /></a>
+        <a class="button button-secondary" href={welcomeKit?.data.href ?? withBase('/resources/')}>ICRA 2026 Welcome Kit</a>
       </div>
     </div>
   </section>
@@ -145,7 +147,7 @@ const researchAreas = [
         <SectionHeading eyebrow="Latest News" title="Recent updates." />
         <div class="news-list">
           {news.map((post) => (
-            <a class="news-card card" href={`/news/${getSlug(post.id)}/`}>
+            <a class="news-card card" href={withBase(`/news/${getSlug(post.id)}/`)}>
               <span>{formatDate(post.data.date)}</span>
               <h3>{post.data.title}</h3>
               <p>{post.data.description}</p>
@@ -160,8 +162,8 @@ const researchAreas = [
           copy="Find tutorials, datasets, benchmarks, reading lists, software, lab links, and committee resources."
         />
         <div class="mini-links">
-          <a href="/resources/">Browse resources <ArrowRight size={16} /></a>
-          <a href="/activities/">View activities <ArrowRight size={16} /></a>
+          <a href={withBase('/resources/')}>Browse resources <ArrowRight size={16} /></a>
+          <a href={withBase('/activities/')}>View activities <ArrowRight size={16} /></a>
         </div>
       </div>
     </div>
@@ -178,7 +180,7 @@ const researchAreas = [
           committee with ideas for strengthening the robot learning community.
         </p>
       </div>
-      <a class="button button-primary" href="/join/">Join through IEEE <ArrowRight size={18} /></a>
+      <a class="button button-primary" href={withBase('/join/')}>Join through IEEE <ArrowRight size={18} /></a>
     </div>
   </section>
 </BaseLayout>

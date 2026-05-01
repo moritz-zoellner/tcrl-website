@@ -1,20 +1,23 @@
 ---
 import { Menu } from '@lucide/astro';
 
+const base = import.meta.env.BASE_URL;
+const withBase = (path = '') => `${base.replace(/\/?$/, '/')}${path.replace(/^\//, '')}`;
+
 const nav = [
-  { href: '/activities/', label: 'Activities' },
-  { href: '/news/', label: 'News' },
-  { href: '/resources/', label: 'Resources' },
-  { href: '/people/', label: 'People' },
-  { href: '/join/', label: 'Join' },
+  { href: withBase('/activities/'), label: 'Activities' },
+  { href: withBase('/news/'), label: 'News' },
+  { href: withBase('/resources/'), label: 'Resources' },
+  { href: withBase('/people/'), label: 'People' },
+  { href: withBase('/join/'), label: 'Join' },
 ];
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="IEEE RAS TC on Robot Learning home">
+    <a class="brand" href={withBase('/')} aria-label="IEEE RAS TC on Robot Learning home">
       <span class="brand-mark scale-150 mr-5" aria-hidden="true">
-        <img src="/images/tcrl-logo.svg" alt="" class="ml-3 scale-[135%]"/>
+        <img src={withBase('/images/tcrl-logo.svg')} alt="" class="ml-3 scale-[135%]"/>
       </span>
       <span>
         <strong>Robot Learning</strong>

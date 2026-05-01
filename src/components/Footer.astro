@@ -1,12 +1,14 @@
 ---
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL;
+const withBase = (path = '') => `${base.replace(/\/?$/, '/')}${path.replace(/^\//, '')}`;
 ---
 
 <footer class="footer">
   <div class="container footer-grid">
     <div>
       <div class="footer-logo-wrap">
-        <img class="footer-logo" src="/images/tcrl-logo.svg" alt="IEEE Robotics and Automation Society Technical Committee on Robot Learning" />
+        <img class="footer-logo" src={withBase('/images/tcrl-logo.svg')} alt="IEEE Robotics and Automation Society Technical Committee on Robot Learning" />
       </div>
       <p class="eyebrow">IEEE RAS Technical Committee</p>
       <h2>Robot Learning</h2>
@@ -16,9 +18,9 @@ const year = new Date().getFullYear();
       </p>
     </div>
     <div class="footer-links">
-      <a href="/join/">Contact</a>
-      <a href="/resources/">Resources</a>
-      <a href="/news/">News</a>
+      <a href={withBase('/join/')}>Contact</a>
+      <a href={withBase('/resources/')}>Resources</a>
+      <a href={withBase('/news/')}>News</a>
       <a href="https://www.ieee-ras.org/" rel="noreferrer">IEEE RAS</a>
     </div>
   </div>
